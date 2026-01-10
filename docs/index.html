@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>健身训练计划</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app__header">
+        <h1>健身训练计划</h1>
+        <p>记录你的训练动作、组数与组间休息时间。</p>
+      </header>
+
+      <section class="card">
+        <h2>添加动作</h2>
+        <form id="exercise-form" class="form">
+          <label class="field">
+            动作名称
+            <input type="text" name="name" placeholder="杠铃平板卧推" required />
+          </label>
+          <div class="field-row">
+            <label class="field">
+              组数
+              <input type="number" name="sets" min="1" placeholder="4" required />
+            </label>
+            <label class="field">
+              组间休息(秒)
+              <input type="number" name="rest" min="0" placeholder="90" required />
+            </label>
+          </div>
+          <button type="submit" class="button button--primary">添加动作</button>
+        </form>
+      </section>
+
+      <section id="timer" class="card timer hidden">
+        <div class="timer__header">
+          <h2>组间休息计时器</h2>
+          <span id="timer-exercise" class="timer__exercise"></span>
+        </div>
+        <div class="timer__body">
+          <div class="timer__count" id="timer-count">00:00</div>
+          <button id="skip-timer" class="button button--ghost">跳过休息</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="list__header">
+          <h2>今日训练动作</h2>
+          <span id="exercise-count" class="list__count">0 个动作</span>
+        </div>
+        <ul id="exercise-list" class="list"></ul>
+        <p id="empty-state" class="empty">还没有添加任何动作。</p>
+      </section>
+    </div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
