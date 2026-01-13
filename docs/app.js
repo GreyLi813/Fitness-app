@@ -110,6 +110,7 @@ const renderList = () => {
 
 const showTimer = () => {
   timerCard.classList.remove("hidden");
+  document.body.classList.add("timer-active");
 };
 
 const hideTimer = () => {
@@ -124,6 +125,7 @@ const stopTimer = () => {
   activeTimer = null;
   remainingSeconds = 0;
   hideTimer();
+  document.body.classList.remove("timer-active");
   renderList();
 };
 
