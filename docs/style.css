@@ -204,6 +204,10 @@ body.timer-active .app > section:not(#timer) {
   display: none;
 }
 
+body.timer-active .fab {
+  display: none;
+}
+
 body.timer-active .timer--overlay {
   position: fixed;
   inset: 0;
