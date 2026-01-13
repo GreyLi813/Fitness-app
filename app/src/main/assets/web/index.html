@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>健身训练计划</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="app__header">
+        <div class="app__title">
+          <span class="app__eyebrow">FitFocus</span>
+          <h1>极简健身助手</h1>
+          <p>记录你的训练动作、组数与休息节奏。</p>
+        </div>
+        <div class="app__actions"></div>
+      </header>
+
+      <section class="card form-card" id="add-exercise">
+        <div class="card__header">
+          <h2>添加动作</h2>
+          <p>填写动作、目标组数与休息时间。</p>
+        </div>
+        <form id="exercise-form" class="form">
+          <label class="field">
+            动作名称
+            <input type="text" name="name" placeholder="杠铃平板卧推" required />
+          </label>
+          <div class="field-row">
+            <label class="field">
+              目标组数
+              <input type="number" name="sets" min="1" placeholder="4" required />
+            </label>
+            <label class="field">
+              组间休息(秒)
+              <input type="number" name="rest" min="0" placeholder="90" required />
+            </label>
+          </div>
+          <button type="submit" class="button button--primary">添加动作</button>
+        </form>
+      </section>
+
+      <section id="timer" class="card timer hidden">
+        <div class="timer__header">
+          <div>
+            <h2>组间休息计时器</h2>
+            <span id="timer-exercise" class="timer__exercise"></span>
+          </div>
+          <span class="chip">休息中</span>
+        </div>
+        <div class="timer__body">
+          <div class="timer__count" id="timer-count">00:00</div>
+          <button id="skip-timer" class="button button--ghost">跳过休息</button>
+        </div>
+      </section>
+
+      <section class="card list-card">
+        <div class="list__header">
+          <div>
+            <h2>今日训练动作</h2>
+            <p class="subtitle">完成每组后更新剩余组数。</p>
+          </div>
+          <span id="exercise-count" class="list__count">0 个动作</span>
+        </div>
+        <ul id="exercise-list" class="list"></ul>
+        <p id="empty-state" class="empty">还没有添加任何动作。</p>
+      </section>
+    </div>
+
+    <a class="fab" href="#add-exercise" aria-label="添加动作">＋</a>
+
+    <script src="app.js"></script>
+  </body>
+</html>
