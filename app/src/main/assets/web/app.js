@@ -25,12 +25,6 @@ const updateCountLabel = () => {
   countLabel.textContent = `${total} 个动作`;
 };
 
-const guideSteps = [
-  "沉肩收紧肩胛骨，双脚稳定踩地。",
-  "下放时肘部微内收，保持胸部发力。",
-  "核心收紧，动作全程保持控制。",
-];
-
 const renderList = () => {
   list.innerHTML = "";
 
@@ -46,8 +40,6 @@ const renderList = () => {
     const completedSets = exercise.totalSets - exercise.remainingSets;
     const progress = (completedSets / exercise.totalSets) * 100;
     const nextSet = Math.min(exercise.totalSets, completedSets + 1);
-    const guideList = guideSteps.map((step) => `<li>${step}</li>`).join("");
-
     const isResting = activeTimer?.id === exercise.id && remainingSeconds > 0;
     const isDisabled = exercise.completed || isResting;
 
@@ -65,12 +57,6 @@ const renderList = () => {
       </div>
       <div class="progress">
         <div class="progress__bar" style="width: ${toPercent(progress)};"></div>
-      </div>
-      <div class="list__guide">
-        <div class="list__guide-title">✨ 动作指南</div>
-        <ol>
-          ${guideList}
-        </ol>
       </div>
       <div class="list__actions">
         <button class="button button--primary is-large" data-action="start" ${
