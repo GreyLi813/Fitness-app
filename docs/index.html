@@ -9,22 +9,15 @@
   <body>
     <div class="app">
       <header class="app__header">
-        <div>
+        <div class="app__title">
           <span class="app__eyebrow">FitFocus</span>
           <h1>极简健身助手</h1>
-          <p>管理动作组数、倒计时与完成进度。</p>
+          <p>记录你的训练动作、组数与休息节奏。</p>
         </div>
-        <div class="app__actions">
-          <button class="icon-button" aria-label="同步">
-            <span>⟳</span>
-          </button>
-          <button class="icon-button" aria-label="下载">
-            <span>⇩</span>
-          </button>
-        </div>
+        <div class="app__actions"></div>
       </header>
 
-      <section class="card form-card">
+      <section class="card form-card" id="add-exercise">
         <div class="card__header">
           <h2>添加动作</h2>
           <p>填写动作、目标组数与休息时间。</p>
@@ -74,6 +67,8 @@
         <p id="empty-state" class="empty">还没有添加任何动作。</p>
       </section>
     </div>
+
+    <a class="fab" href="#add-exercise" aria-label="添加动作">＋</a>
 
     <script src="app.js"></script>
   </body>
