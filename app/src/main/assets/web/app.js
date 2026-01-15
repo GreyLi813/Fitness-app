@@ -6,11 +6,17 @@ const timerCard = document.getElementById("timer");
 const timerExercise = document.getElementById("timer-exercise");
 const timerCount = document.getElementById("timer-count");
 const skipTimer = document.getElementById("skip-timer");
+const timerDial = document.querySelector(".timer__dial");
+const timerProgress = document.querySelector(".timer__ring-progress");
+
+const RING_RADIUS = 54;
+const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
 let exercises = [];
 let activeTimer = null;
 let remainingSeconds = 0;
 let intervalId = null;
+let totalTimerSeconds = 0;
 
 const toPercent = (value) => `${Math.min(100, Math.max(0, value))}%`;
 
@@ -23,6 +29,16 @@ const formatTime = (value) => {
 const updateCountLabel = () => {
   const total = exercises.length;
   countLabel.textContent = `${total} 个动作`;
+};
+
+const updateTimerDial = () => {
+  if (!timerDial || !timerProgress) {
+    return;
+  }
+  const progress =
+    totalTimerSeconds > 0 ? remainingSeconds / totalTimerSeconds : 0;
+  timerProgress.style.strokeDasharray = `${RING_CIRCUMFERENCE}`;
+  timerProgress.style.strokeDashoffset = `${RING_CIRCUMFERENCE * (1 - progress)}`;
 };
 
 const renderList = () => {
@@ -110,6 +126,8 @@ const stopTimer = () => {
   intervalId = null;
   activeTimer = null;
   remainingSeconds = 0;
+  totalTimerSeconds = 0;
+  updateTimerDial();
   hideTimer();
   document.body.classList.remove("timer-active");
   renderList();
@@ -122,6 +140,7 @@ const tickTimer = () => {
   }
   remainingSeconds -= 1;
   timerCount.textContent = formatTime(remainingSeconds);
+  updateTimerDial();
 };
 
 const startTimer = (exercise) => {
@@ -135,8 +154,10 @@ const startTimer = (exercise) => {
     exercise.completed = true;
   }
   remainingSeconds = exercise.rest;
+  totalTimerSeconds = exercise.rest;
   timerExercise.textContent = `动作: ${exercise.name}`;
   timerCount.textContent = formatTime(remainingSeconds);
+  updateTimerDial();
   showTimer();
   intervalId = setInterval(tickTimer, 1000);
   updateCountLabel();
