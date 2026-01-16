@@ -1,1 +1,5 @@
 *.code-workspace
+.gradle/
+.gradle-user-home/
+**/build/
+local.properties
