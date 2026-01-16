@@ -6,11 +6,17 @@ const timerCard = document.getElementById("timer");
 const timerExercise = document.getElementById("timer-exercise");
 const timerCount = document.getElementById("timer-count");
 const skipTimer = document.getElementById("skip-timer");
+const timerDial = document.querySelector(".timer__dial");
+const timerProgress = document.querySelector(".timer__ring-progress");
+
+const RING_RADIUS = 54;
+const RING_CIRCUMFERENCE = 2 * Math.PI * RING_RADIUS;
 
 let exercises = [];
 let activeTimer = null;
 let remainingSeconds = 0;
 let intervalId = null;
+let totalTimerSeconds = 0;
 
 const toPercent = (value) => `${Math.min(100, Math.max(0, value))}%`;
 
@@ -25,11 +31,15 @@ const updateCountLabel = () => {
   countLabel.textContent = `${total} 个动作`;
 };
 
-const guideSteps = [
-  "沉肩收紧肩胛骨，双脚稳定踩地。",
-  "下放时肘部微内收，保持胸部发力。",
-  "核心收紧，动作全程保持控制。",
-];
+const updateTimerDial = () => {
+  if (!timerDial || !timerProgress) {
+    return;
+  }
+  const progress =
+    totalTimerSeconds > 0 ? remainingSeconds / totalTimerSeconds : 0;
+  timerProgress.style.strokeDasharray = `${RING_CIRCUMFERENCE}`;
+  timerProgress.style.strokeDashoffset = `${RING_CIRCUMFERENCE * (1 - progress)}`;
+};
 
 const renderList = () => {
   list.innerHTML = "";
@@ -46,8 +56,6 @@ const renderList = () => {
     const completedSets = exercise.totalSets - exercise.remainingSets;
     const progress = (completedSets / exercise.totalSets) * 100;
     const nextSet = Math.min(exercise.totalSets, completedSets + 1);
-    const guideList = guideSteps.map((step) => `<li>${step}</li>`).join("");
-
     const isResting = activeTimer?.id === exercise.id && remainingSeconds > 0;
     const isDisabled = exercise.completed || isResting;
 
@@ -65,12 +73,6 @@ const renderList = () => {
       </div>
       <div class="progress">
         <div class="progress__bar" style="width: ${toPercent(progress)};"></div>
-      </div>
-      <div class="list__guide">
-        <div class="list__guide-title">✨ 动作指南</div>
-        <ol>
-          ${guideList}
-        </ol>
       </div>
       <div class="list__actions">
         <button class="button button--primary is-large" data-action="start" ${
@@ -110,6 +112,7 @@ const renderList = () => {
 
 const showTimer = () => {
   timerCard.classList.remove("hidden");
+  document.body.classList.add("timer-active");
 };
 
 const hideTimer = () => {
@@ -123,7 +126,10 @@ const stopTimer = () => {
   intervalId = null;
   activeTimer = null;
   remainingSeconds = 0;
+  totalTimerSeconds = 0;
+  updateTimerDial();
   hideTimer();
+  document.body.classList.remove("timer-active");
   renderList();
 };
 
@@ -134,6 +140,7 @@ const tickTimer = () => {
   }
   remainingSeconds -= 1;
   timerCount.textContent = formatTime(remainingSeconds);
+  updateTimerDial();
 };
 
 const startTimer = (exercise) => {
@@ -147,8 +154,10 @@ const startTimer = (exercise) => {
     exercise.completed = true;
   }
   remainingSeconds = exercise.rest;
+  totalTimerSeconds = exercise.rest;
   timerExercise.textContent = `动作: ${exercise.name}`;
   timerCount.textContent = formatTime(remainingSeconds);
+  updateTimerDial();
   showTimer();
   intervalId = setInterval(tickTimer, 1000);
   updateCountLabel();

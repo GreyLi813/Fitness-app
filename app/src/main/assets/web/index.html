@@ -41,7 +41,7 @@
         </form>
       </section>
 
-      <section id="timer" class="card timer hidden">
+      <section id="timer" class="card timer timer--overlay hidden">
         <div class="timer__header">
           <div>
             <h2>组间休息计时器</h2>
@@ -50,7 +50,13 @@
           <span class="chip">休息中</span>
         </div>
         <div class="timer__body">
-          <div class="timer__count" id="timer-count">00:00</div>
+          <div class="timer__dial">
+            <svg class="timer__ring" viewBox="0 0 120 120" aria-hidden="true">
+              <circle class="timer__ring-track" cx="60" cy="60" r="54"></circle>
+              <circle class="timer__ring-progress" cx="60" cy="60" r="54"></circle>
+            </svg>
+            <div class="timer__count" id="timer-count">00:00</div>
+          </div>
           <button id="skip-timer" class="button button--ghost">跳过休息</button>
         </div>
       </section>
@@ -68,7 +74,6 @@
       </section>
     </div>
 
-    <a class="fab" href="#add-exercise" aria-label="添加动作">＋</a>
 
     <script src="app.js"></script>
   </body>

@@ -3,10 +3,7 @@ set -euo pipefail
 
 PORT=${PORT:-8000}
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WEB_DIR="${ROOT_DIR}/docs"
-if [[ ! -d "$WEB_DIR" ]]; then
-  WEB_DIR="${ROOT_DIR}/web"
-fi
+WEB_DIR="${ROOT_DIR}/app/src/main/assets/web"
 MODE=${1:-}
 
 if [[ ! -d "$WEB_DIR" ]]; then
@@ -21,11 +18,11 @@ echo "Starting web server at http://127.0.0.1:$PORT"
 echo "Press Ctrl+C to stop."
 
 if [[ "$MODE" == "--once" ]]; then
-  python -m http.server "$PORT" >/dev/null 2>&1 &
+  python3 -m http.server "$PORT" >/dev/null 2>&1 &
   SERVER_PID=$!
   sleep 2
   kill "$SERVER_PID" >/dev/null 2>&1 || true
   echo "Server stopped."
 else
-  python -m http.server "$PORT"
+  python3 -m http.server "$PORT"
 fi
